@@ -5,6 +5,7 @@ import '../../../components/add_task.dart';
 import '../../../components/todo_item_tile.dart';
 import '../../../data/todo_list.dart';
 import '../../../data/todo_fetch.dart';
+import '../../../data/online_fetch.dart';
 import '../../../model/todo_item.dart';
 
 class All extends StatefulWidget {
@@ -15,6 +16,32 @@ class All extends StatefulWidget {
 }
 
 class _AllState extends State<All> {
+  static GraphQLClient _client;
+  runOnlineMutation(context) {
+    _client = GraphQLProvider.of(context).value;
+    Future.doWhile(
+      () async {
+        _client.mutate(
+          MutationOptions(
+            documentNode: gql(OnlineFetch.updateStatus),
+            variables: {
+              'now': DateTime.now().toUtc().toIso8601String(),
+            },
+          ),
+        );
+        await Future.delayed(Duration(seconds: 30));
+        return true;
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => runOnlineMutation(context));
+    super.initState();
+  }
+
   VoidCallback refetchQuery;
 
   @override
