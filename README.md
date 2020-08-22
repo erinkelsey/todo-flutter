@@ -1,6 +1,13 @@
 # todo_app
 
-A new Flutter project.
+ToDo List app for iOS, Android and Web using Flutter and Dart. Hasura hosted GraphQL backend and Auth0 for authentication.
+
+Hasura GraphiQL:
+
+- Test username:
+- Test password:
+
+Hosted web example:
 
 ## Getting Started
 

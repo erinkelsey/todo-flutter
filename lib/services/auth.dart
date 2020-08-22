@@ -25,6 +25,7 @@ class HasuraAuth {
   }
 
   Future<bool> signup(String username, String password) async {
+    print('siging up');
     bool success = false;
     Map credentials = {
       "username": username,
@@ -42,6 +43,7 @@ class HasuraAuth {
     if (response == null) {
       return success;
     }
+    print(jsonDecode(response.body));
     success = jsonDecode(response.body)["id"] != null;
     return success;
   }
